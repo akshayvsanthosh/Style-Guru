@@ -1,0 +1,83 @@
+<app-header></app-header>
+<section class="py-5">
+    <div class="container mt-5">
+        <div *ngIf="allProduct.length>0">
+            <h1>Cart Summary</h1>
+            <div class="row mt-3">
+                <div class="col-lg-8">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Product</th>
+                                <th>Image</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>...</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let product of allProduct; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{product.title.slice(0,27)}}..</td>
+                            <td><img width="50px" height="50px" [src]="product.image" alt="image"></td>
+                            <td>
+                                <div class="d-flex">
+                                    <button (click)="decrementQuantity(product._id)" class="btn fw-bolder"> - </button>
+                                    <input [value]="product.quantity" style="width: 3rem;" class="form-control" readonly type="text">
+                                    <button (click)="incrementQuantity(product._id)" class="btn fw-bolder"> + </button>
+                                </div>
+                            </td>
+                            <td> $ {{product.totalPrice}} </td>
+                            <td>
+                                <button (click)="removeCartItem(product._id)" class="btn"> <i class="fa-solid fa-trash text-danger"></i>
+                                </button>
+                            </td>
+                        </tbody>
+                    </table>
+                    <div class="float-end">
+                        <button (click)="emptyCart()" class="btn btn-danger">EMPTY CART</button>
+                        <a routerLink="" class="btn btn-primary ms-2">SHOP MORE</a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="border rounded p-3 shadow">
+                        <h3>Cart Total : <span class="fw-bolder text-danger">$ {{cartTotal}}</span></h3>
+                        <!-- coupons -->
+                         <h6 *ngIf="!couponStatus" (click)="getCoupon()">Click here to view<span class="btn btn-link text-primary"><i class="fa-solid fa-tag"></i> Offers</span></h6>
+                         <div  *ngIf="couponStatus" class="d-flex justify-content-evenly mt-3">
+                            <!-- no offers -->
+                             <ng-container *ngIf="cartTotal<50">
+                                <p class="text-primary">Sorry, No more Offers for this purchase!</p>
+                                <button (click)="backToOffers()" class="btn btn-link text-danger">Back to Offers</button>
+                             </ng-container>
+                            <!-- 5% -->
+                             <ng-container *ngIf="cartTotal>=50 && cartTotal<=250 && !couponClickedStatus">
+                                <img (click)="coupon5percent()" width="150px" height="100px" src="https://img.freepik.com/premium-vector/coupon-mockup-with-5-percent-off-discount-voucher-gift-coupon-coupon-promotion-sale-vector_662353-255.jpg" alt="5%">
+                             </ng-container>
+                            <!-- 20% -->
+                            <ng-container *ngIf="cartTotal>=250 && cartTotal<=500 && !couponClickedStatus">
+                                <img (click)="coupon20percent()" width="150px" height="100px" src="https://t3.ftcdn.net/jpg/05/08/67/46/240_F_508674663_m8CoQ8jaRIImVFvDO0h8ROht62P0hPlK.jpg" alt="20%">
+                             </ng-container>
+                            <!-- 50% -->
+                            <ng-container *ngIf="cartTotal>=500 && !couponClickedStatus">
+                                <img (click)="coupon50percent()" width="150px" height="100px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQokqoaVdurlS2Z9lNt0fDV98aLJQtE0klFBA&s" alt="">
+                             </ng-container>
+                         </div>
+                        <hr>
+                        <div class="d-grid">
+                            <button (click)="checkout()" class="btn btn-success">Checkout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="allProduct.length==0">
+            <div style="height: 80vh;" class="d-flex justify-content-center align-items-center flex-column">
+                <img width="400px"
+                    src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-5521508-4610092.png"
+                    alt="">
+                <h1 class="text-primary">Your Cart is Empty!</h1>
+            </div>
+        </div>
+    </div>
+</section>
