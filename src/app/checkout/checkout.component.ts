@@ -17,12 +17,9 @@ export class CheckoutComponent {
 
   public payPalConfig ? : IPayPalConfig;
   checkoutForm = this.fb.group({
-    // username:['',Validators.required,Validators.pattern('[a-zA-Z ]*')],
-    // address:['',Validators.required,Validators.pattern('[a-zA-Z0-9 ]*')],
-    // pincode:['',Validators.required,Validators.pattern('[0-9]*')]
-    username:[''],
-    address:[''],
-    pincode:['']
+    username:['',[Validators.required,Validators.pattern('[a-zA-Z ]*')]],
+    address:['',[Validators.required,Validators.pattern('[a-zA-Z0-9 ]*')]],
+    pincode:['',[Validators.required,Validators.pattern('[0-9]*')]]
   })
   checkoutStatus:boolean=false
   totalAmount:string=""
